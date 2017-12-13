@@ -33,10 +33,12 @@ default_globals = _initialize_globals({})
 
 def read_config(src, required=[], default={}, exclude_unknown=True,
                 ignore_unknown=True, exclude_init_globals=True, globals=None,
-                __name__='__main__', exec_=None):
+                __name__='__main__', __file__=None, exec_=None):
     globals = globals or default_globals.copy()
     if __name__ is not None:
         globals['__name__'] = __name__
+    if __file__ is not None:
+        globals['__file__'] = __file__
     init_globals = globals.copy()
 
     # TODO configファイルが例外を送出した場合の処理
