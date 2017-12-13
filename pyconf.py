@@ -9,6 +9,7 @@ __all__ = ['read_config']
 
 def _initialize_globals(globals):
     exec('', globals)
+    return globals
 
 
 def _exclude_init_globals(globals, init_globals):
@@ -27,10 +28,13 @@ def _dict_intersect(a, b):  # a(dict) & b(iterable)
     return res
 
 
+default_globals = _initialize_globals({})
+
+
 def read_config(src, required=[], default={}, exclude_unknown=True,
-                ignore_unknown=True, exclude_init_globals=True, globals={},
+                ignore_unknown=True, exclude_init_globals=True, globals=None,
                 exec_=None):
-    _initialize_globals(globals)
+    globals = globals or default_globals.copy()
     init_globals = globals.copy()
 
     # TODO configファイルが例外を送出した場合の処理
